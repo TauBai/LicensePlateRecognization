@@ -142,13 +142,6 @@ cv::Mat plate::plates_roughlocate(){
     }
     //return regions;
     roi = regions;
-    //if there is less than one region, it's no need to run plate_locate()
-////////////////完全调试好后要把下面的注释删掉//////////////////
-/*    if(regions.size() > 1)
-        set_roughmode(0);
-    else
-        set_roughmode(1);
-*/
     if(debugflag)
         if(!regions.size())
             std::cout << "no region detected" << std::endl;
@@ -419,112 +412,6 @@ cv::Mat plate::platesPerspectiveTrans(cv::Rect rect) {
         if(debugflag)
             cv::imshow("rectified" ,rectified_dst);
 
-        // Calculates a perspective transform from four pairs of the corresponding points.
-
-        /*
-    std::vector<std::vector<cv::Point>> roi_point;
-    cv::findContours(roi_enlarged,roi_point,CV_RETR_EXTERNAL,CV_CHAIN_APPROX_NONE);
-    cv::Mat dst(roi_enlarged.size(),CV_8UC3,cv::Scalar(0,0,0));
-
-    std::vector<cv::Vec4d> lines;
-    ransacLines(roi_point[0],lines);
-    for( size_t i = 0; i < lines.size(); i++ ){
-        cv::line( dst, cv::Point(lines[i][0], lines[i][1]),
-        cv::Point(lines[i][2], lines[i][3]), cv::Scalar(0,0,255), 3, 8 );
-    }
-*/
-        /*
-    cv::Mat dst(roi_enlarged.size(),CV_8UC3,cv::Scalar(0,0,0));
-    std::vector<cv::Vec4f> lines;
-    cv::HoughLinesP( roi_enlarged, lines, 1, CV_PI/180, 20, 20, 20);
-    std::cout << lines.size() << std::endl;
-    for( size_t i = 0; i < lines.size(); i++ ){
-        cv::line( dst, cv::Point(lines[i][0], lines[i][1]),
-        cv::Point(lines[i][2], lines[i][3]), cv::Scalar(0,0,255), 3, 8 );
-    }
-    struct thetaLines{
-        cv::Vec4f endpoints;
-        double theta;
-        double length;
-    };
-    std::vector<thetaLines> lines_theta;
-    for(auto a :lines){
-        double length =sqrt((a[0]-a[2])*(a[0]-a[2]) + (a[1]-a[3])*(a[1]-a[3]));
-        if(length> 20){
-            double theta = atan(double(a[1]-a[3])/(a[0]-a[2]));
-            thetaLines line;
-            line.endpoints = a;
-            line.theta =theta;
-            line.length = length;
-            lines_theta.push_back(line);
-        }
-    }
-    std::vector<thetaLines> quadrangle;
-    //找出最符合的四条边
-    for(auto it =  lines_theta.begin();it != lines_theta.end(); ++it){
-        for(auto ita = it +1; ita != lines_theta.end();++itc ){
-            if((*it).theta - (*ita).theta < CV_PI/9){
-                double distance = ((*it).endpoints)
-            }
-        }
-    }
-*/
-        /*
-    std::vector<cv::Point> roi_point_approx;
-    cv::Mat roi_approx(roi_enlarged.size(),CV_8UC3,cv::Scalar(0,0,0));
-    approxPolyDP( roi_enlarged.begin(), roi_point_approx, 7, 1 );
-
-    for(auto a : roi_point_approx)
-        cv::circle(roi_approx,a,2,cv::Scalar(0,0,255));
-    if(debugflag)
-        cv::imshow("roi_approx",roi_approx);
-*/
-        /*
-    cv::Mat dst(roi_enlarged.size(),CV_8UC3,cv::Scalar(0,0,0));
-    std::vector<std::vector<cv::Point>> linespoint;
-    std::vector<LinePolar> lines;
-    std::vector<cv::Point2f> vertexes;
-
-        LinePolar linepolar;
-            HoughLinesPeak( linepolar,roi_point,roi_enlarged.size(), 1, CV_PI/500, 0., CV_PI );
-            lines.push_back(linepolar);
-
-        //draw all lines detected by hough
-        for( size_t i = 0; i < lines.size(); i++ )
-        {
-            float rho = lines[i].rho;
-            float theta = lines[i].angle;
-            double a = cos(theta), b = sin(theta);
-            double x0 = a*rho, y0 = b*rho;
-            cv::Point pt1(cvRound(x0 + 1000*(-b)),  cvRound(y0 + 1000*(a)));
-            cv::Point pt2(cvRound(x0 - 1000*(-b)),  cvRound(y0 - 1000*(a)));
-            cv::line( dst, pt1, pt2, cv::Scalar(0,0,255), 1, 8 );
-        }
-        cv::imshow("houghline",dst);
-*/
-
-        /*
-    cv::HoughLinesP( roi_enlarged, lines, 1, CV_PI/180, 20, 20, 20);
-    std::cout << lines.size() << std::endl;
-    for( size_t i = 0; i < lines.size(); i++ ){
-        cv::line( dst, cv::Point(lines[i][0], lines[i][1]),
-        cv::Point(lines[i][2], lines[i][3]), cv::Scalar(0,0,255), 3, 8 );
-    }
-*/
-        /*
-    std::vector<cv::Vec2f> lines;
-    cv::HoughLines(G_otsu, lines,1, CV_PI/180, 30,0,0);
-    for( size_t i = 0; i < lines.size(); i++ ){
-        float rho = lines[i][0];
-        float theta = lines[i][1];
-        double a = cos(theta), b = sin(theta);
-        double x0 = a*rho, y0 = b*rho;
-        cv::Point pt1(cvRound(x0 + 1000*(-b)), cvRound(y0 + 1000*(a)));
-        cv::Point pt2(cvRound(x0 - 1000*(-b)), cvRound(y0 - 1000*(a)));
-        cv::line( dst, pt1, pt2, cv::Scalar(0,0,255), 3, 8 );
-
-    }
-*/
         return rectified_dst;
     }
 }
