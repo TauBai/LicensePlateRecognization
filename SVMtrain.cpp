@@ -74,8 +74,8 @@ int main(int argc, char** argv)
 //                                           (int)1e7, 1e-6 ));
     std::cout << "Training SVM , please wait..." << std::endl;
 
-    //svm_->trainAuto(trainData);
-    svm_ ->train(trainData);
+    svm_->trainAuto(trainData);
+    //svm_ ->train(trainData);
     //svm_->train(samples_,cv::ml::ROW_SAMPLE,labels);
     //svm_->train(samples_,cv::ml::ROW_SAMPLE,train_classes);
     std::cout << "training process finished " << std::endl;
