@@ -70,3 +70,4 @@
 
 它使用connect-component 筛选车牌(adaptive thres获取edge), 用bounding box 分割字符, 最后用的kNN识别字符. 暂不评论它的优劣, 这里提供了其他的思路
 
+                                                                                     2016.6.19
