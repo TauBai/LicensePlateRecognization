@@ -1,2 +1,3 @@
 # LicensePlateRecognization
-opencv based license plate recognition and ocr  , c++
+
+之前的代码我已经放到了trash_box文件夹里, 近期会更新
